@@ -4,11 +4,17 @@ from . forms import *
 from . models import *
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+
 
 def posts_list(request):
-    posts = Post.objects.all()
+    search_query = request.GET.get('search', '')
+    if search_query:
+        posts = Post.objects.filter(Q(title__icontains=search_query) | Q(body__icontains=search_query))
+    else:
+        posts = Post.objects.all()
+
     paginator = Paginator(posts, 3)
-    
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'Post/posts_list.html', context={'posts': page_obj.object_list, 'paginator': paginator, 'page_number': page_number, 'page_obj': page_obj})
