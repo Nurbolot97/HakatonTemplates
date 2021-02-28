@@ -1,58 +1,108 @@
-{% extends 'Post/base_post.html' %}
-
+{% extends 'blog.html' %}
+{% load static %}
 
 {% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
 
 {% block content %}
 <br>
+<section class="blog_area section-padding">
     <div class="container">
-        <div class="row mt-3">
-            <h2 class="head" style="text-align: center; font-family:'Times New Roman', Times, serif;">{{ post.title }}</h2>
-            <p class="header" style="text-align: left;">Published by {{ post.author }} at {{ post.date_pub }}</p>
-            <div class="post" style="text-align: left; font-family: 'Times New Roman', Times, serif;">
-                {{ post.body }}
-            <br>
-            <p class="footer" style="text-align: right;">
-            Updated at {{ post.updated_at }}
-            </p>
-                <div class="btn-group-smaller bg-dark btn-group-smaller" style="text-align: center;" role="group">
-                    <a href="{% url 'post_update' pk=post.pk %}"><button type="button" class="btn btn-primary bg-dark">Update</button></a>
-                    <a href="{% url 'post_delete' pk=post.pk %}"><button type="button" class="btn btn-primary bg-dark">Delete</button></a>
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <article class="blog_item">
+                <div class="blog_item_img">
+                    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
 
+                        <div class="carousel-inner">
+                            {% if post.photo %}
+                                <div class="carousel-item active" data-bs-interval="10000">
+                                    <img src="{{ post.photo.url }}" class="d-block w-100" alt="...">
+
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="{{ post.photo.url }}" class="d-block w-100" alt="...">
+
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ post.photo.url }}" class="d-block w-100" alt="...">
+
+                                </div>
+                                {% endif %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"  data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"  data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <a href="#" class="blog_item_date">
+                        <p>Published: {{ post.date_pub }}</p>
+                    </a>
                 </div>
-            </p>
+                </article>
+
+                <div class="container">
+                    <div class="row mt-3">
+                        <h2 class="head" style="text-align: center; font-family:'Times New Roman', Times, serif;">{{ post.title }}</h2>
+                        <p class="header" style="text-align: left;">Published by {{ post.author }} at {{ post.date_pub }}</p>
+                        <div class="post" style="text-align: left; font-family: 'Times New Roman', Times, serif;">
+                            {{ post.body }}
+                        <br>
+                        <p class="footer" style="text-align: right;">
+                        Updated at {{ post.updated_at }}
+                        </p>
+                            <div class="btn-group-smaller bg-dark btn-group-smaller" style="text-align: center;" role="group">
+                                <a href="{% url 'post_update' pk=post.pk %}"><button type="button" class="btn btn-primary bg-dark">Update</button></a>
+                                <a href="{% url 'post_delete' pk=post.pk %}"><button type="button" class="btn btn-primary bg-dark">Delete</button></a>
+
+                            </div>
+                        </p>
+                    </div>
+                    {% with comments_posts.count as total_comments %}
+                        <h4>
+                            Comments: {{ total_comments }}
+                        </h4>
+                        {% endwith %}
+
+                        {% for comment in comments_posts %}
+                            <div class="comment">
+                                <p class="info">
+                                    Comment created by: {{ comment.author }} at
+                                    {{ comment.created_date }}
+                                </p>
+                                <p>Comment text: {{ comment.text|linebreaks }}</p> 
+                                
+                                {% if user.id == comment.author.id %}
+                                    <button class="btn btn-primary bg-dark"><a href="{% url 'comment_delete' pk=comment.pk %}">Delete</a></button>
+                                {% endif %}
+                            </div>
+                                {% empty %}
+                                    <p>There are no comments yet.</p>
+                        {% endfor %}
+
+                            {% if new_comment %}
+                            <form method="POST">
+                                {{ comment_form.as_p }}
+                                {% csrf_token %}
+                                <p><input type="submit">Add comment</p>
+                            </form>
+                            {% endif %}
+                        
+                </div>
+
+            </div>
         </div>
-        {% with comments_posts.count as total_comments %}
-            <h4>
-                Comments: {{ total_comments }}
-            </h4>
-            {% endwith %}
-
-            {% for comment in comments_posts %}
-                <div class="comment">
-                    <p class="info">
-                        Comment created by: {{ comment.author }} at
-                        {{ comment.created_date }}
-                    </p>
-                    <p>Comment text: {{ comment.text|linebreaks }}</p> 
-                    
-                    {% if user.id == comment.author.id %}
-                        <button class="btn btn-primary bg-dark"><a href="{% url 'comment_delete' pk=comment.pk %}">Delete</a></button>
-                    {% endif %}
-                </div>
-                    {% empty %}
-                        <p>There are no comments yet.</p>
-            {% endfor %}
-
-                {% if new_comment %}
-                <form method="POST">
-                    {{ comment_form.as_p }}
-                    {% csrf_token %}
-                    <p><input type="submit">Add comment</p>
-                </form>
-                {% endif %}
-               
     </div>
+</section>
+
 {% endblock %}
 
 
