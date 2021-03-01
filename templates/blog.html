@@ -113,34 +113,31 @@
                                     </div>
                                 <!-- Main-menu -->
                                 <div class="main-menu d-none d-md-block">
-                                    {% if user.is_authenticated %}
-                                    <nav>                  
+                                    <nav>
                                         <ul id="navigation">    
                                             <li><a href="{% url 'posts_list' %}">Home</a></li>
                                             <li><a href="{% url 'post_create' %}">New Post</a></li>
                                             <li><a href="#">Rules - Insta Blog</a></li>
                                             <li><a href="#">{{ user.username }}</a>
-                                                <ul class="submenu">
-                                                    <li><a href="{% url 'login' %}">Log In</a></li>
-                                                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                                                    <li><a href="{% url 'logout' %}">Log Out</a></li>
-                                                    <li><a href="{% url 'password_change' %}">Change password</a></li>
-                                                </ul>
+                                            {% if not user.is_authenticated %}
+                                            <li><a href="{% url 'login' %}">Log In</a></li>
+                                            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                                            {% endif %}
+                                            <ul class="submenu">
+                                                {% if user.is_authenticated %}
+                                                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                                                <li><a href="{% url 'password_change' %}">Change password</a></li>
+                                                {% endif %}
+                                            </ul>
                                             </li>
                                         </ul>
                                     </nav>
-                                    {% endif %}
                                 </div>
                             </div>             
                             <div class="col-xl-2 col-lg-2 col-md-4">
                                 <div class="header-right-btn f-right d-none d-lg-block">
-                                    <i class="fas fa-search special-tag"></i>
-                                    <div class="search-box">
-                                        <form action="{% url 'posts_list' %}">
-                                            <input type="text" placeholder="Search", name="search">
-                                            
-                                        </form>
-                                    </div>
+
+
                                 </div>
                             </div>
                             <!-- Mobile Menu -->

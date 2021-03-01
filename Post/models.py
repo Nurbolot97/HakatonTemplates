@@ -13,6 +13,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=150, unique=True)
     date_pub = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField('Tag', blank=True, related_name='post')
 
     class Meta:
         ordering = ('-date_pub',)
@@ -52,4 +53,21 @@ class Comment(models.Model):
 
     def __str__(self):  
         return f"Comment by {self.author} on {self.post}"
+
+
+class Tag(models.Model):
+    title = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=50, unique=True)
+
+
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
+    def get_absolute_url(self):
+        return reverse('tag_detail', kwargs={'slug': self.slug})
+
+
+    def __str__(self):
+        return f"{self.title}"
 

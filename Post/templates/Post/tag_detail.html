@@ -1,0 +1,30 @@
+{% extends 'blog.html' %}
+{% load static %}
+
+
+{% block content %}
+    {% for post in tag.post.all %}
+        <br>
+        <div class="container">
+            <article class="blog_item">
+                <div class="blog_item_img">
+                    <img class="card-img rounded-0" src="{% static 'assets/img/blog/single_blog_1.png' %}" alt="">
+                    <a href="#" class="blog_item_date">
+                        <p>{{ post.date_pub }}</p>
+                    </a>
+                </div>
+
+                <div class="blog_details">
+                    <a class="d-inline-block" href="{{ post.get_absolute_url }}">
+                        <h2>{{ post.title }}</h2>
+                    </a>
+                    <p>{{ post.body }}</p>
+                    <ul class="blog-info-link">
+                        <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
+                        <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+    {% endfor %}
+{% endblock %}

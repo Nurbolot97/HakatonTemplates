@@ -8,7 +8,7 @@
 <section class="blog_area section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mb-5 mb-lg-0">
+            <div class="col-lg-8 mb-5 mb-lg-0 offset-md-2">
                 <article class="blog_item">
                 <div class="blog_item_img">
                     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -59,9 +59,9 @@
                         <p class="footer" style="text-align: right;">
                         Updated at {{ post.updated_at }}
                         </p>
-                            <div class="btn-group-smaller bg-dark btn-group-smaller" style="text-align: center;" role="group">
-                                <a href="{% url 'post_update' pk=post.pk %}"><button type="button" class="btn btn-primary bg-dark">Update</button></a>
-                                <a href="{% url 'post_delete' pk=post.pk %}"><button type="button" class="btn btn-primary bg-dark">Delete</button></a>
+                            <div class="btn-group" style="text-align: center;" role="group">
+                                <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-danger">Edit</a>
+                                <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-info">Delete</a>
 
                             </div>
                         </p>
@@ -78,8 +78,8 @@
                                     Comment created by: {{ comment.author }} at
                                     {{ comment.created_date }}
                                 </p>
-                                <p>Comment text: {{ comment.text|linebreaks }}</p> 
-                                
+                                <p>Comment text: {{ comment.text|linebreaks }}</p>
+
                                 {% if user.id == comment.author.id %}
                                     <button class="btn btn-primary bg-dark"><a href="{% url 'comment_delete' pk=comment.pk %}">Delete</a></button>
                                 {% endif %}
@@ -88,14 +88,18 @@
                                     <p>There are no comments yet.</p>
                         {% endfor %}
 
-                            {% if new_comment %}
-                            <form method="POST">
-                                {{ comment_form.as_p }}
+                            {% if user.is_authenticated %}
+                    <form action="" method="POST">
+                        <div class="card col-9 offset-md-1" style="background-color: #ccc6c6;">
+                            <h5 style="text-align: center;">Add comment</h5>
+                            <p class="text-form">
                                 {% csrf_token %}
-                                <p><input type="submit">Add comment</p>
-                            </form>
+                                {{ comment_form.as_p }}
+                                <button type="submit" class="btn btn-primary">ADD</button>
+                            </p>
+                        </div>
+                    </form>
                             {% endif %}
-                        
                 </div>
 
             </div>
