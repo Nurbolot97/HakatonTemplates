@@ -29,6 +29,7 @@ def post_detail(request, pk):
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
+            new_comment.author = request.user
             new_comment.save()
     else:
         comment_form = CommentForm()
@@ -50,19 +51,6 @@ def post_create(request):
     return render(request, 'Post/post_create.html', locals())
 
 
-# @login_required
-# def update_post(request, pk):
-#     post = get_object_or_404(Post, pk=pk)
-#     if request.method == "POST":
-#         form = PostForm(request.POST, request.FILES, instance=post)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.author = request.user
-#             post.updated_at = timezone.now()
-#             post.save()
-#     else:
-#         form = PostForm()
-#     return render(request, 'Post/post_create.html', locals())
 
 
 class EditPostView(LoginRequiredMixin, UpdateView):

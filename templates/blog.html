@@ -114,19 +114,19 @@
                                 <!-- Main-menu -->
                                 <div class="main-menu d-none d-md-block">
                                     <nav>
-                                        <ul id="navigation">    
-                                            <li><a href="{% url 'posts_list' %}">Home</a></li>
-                                            <li><a href="{% url 'post_create' %}">New Post</a></li>
-                                            <li><a href="#">Rules - Insta Blog</a></li>
-                                            <li><a href="#">{{ user.username }}</a>
+                                        <ul id="navigation">
+                                            <li><a href="{% url 'posts_list' %}"><h4>Home</h4></a></li>
+                                            <li><a href="{% url 'post_create' %}"><h4>New Post</h4></a></li>
+                                            <li><a href="#"><h4>Rules - Insta Blog</h4></a></li>
+                                            <li><a href="#"><h4>{{ user.username }}</h4></a>
                                             {% if not user.is_authenticated %}
-                                            <li><a href="{% url 'login' %}">Log In</a></li>
-                                            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                                                <li><a href="{% url 'login' %}"><h4>Log In</h4></a></li>
+                                                <li><a href="{% url 'signup' %}"><h4>Sign Up</h4></a></li>
                                             {% endif %}
                                             <ul class="submenu">
                                                 {% if user.is_authenticated %}
-                                                <li><a href="{% url 'logout' %}">Log Out</a></li>
-                                                <li><a href="{% url 'password_change' %}">Change password</a></li>
+                                                    <li><a href="{% url 'logout' %}"><h4>Log Out</h4></a></li>
+                                                    <li><a href="{% url 'password_change' %}"><h4>Change password</h4></a></li>
                                                 {% endif %}
                                             </ul>
                                             </li>
@@ -134,12 +134,7 @@
                                     </nav>
                                 </div>
                             </div>             
-                            <div class="col-xl-2 col-lg-2 col-md-4">
-                                <div class="header-right-btn f-right d-none d-lg-block">
 
-
-                                </div>
-                            </div>
                             <!-- Mobile Menu -->
                             <div class="col-12">
                                 <div class="mobile_menu d-block d-md-none"></div>

@@ -5,19 +5,22 @@
 
 {% block content %}
 <br>
-<h2 class="title login" style="text-align: center; font-family: 'Times New Roman', Times, serif;">Log in</h2>
 <br>
 <div class="row justify-content-center" style="text-align: center;">
-	<div class="col-lg-8 col-md-10 col-sm-12">
+	<div class="col-lg-3 col-md-8 col-sm-8">
 		<div class="card">
-			<div class="cardbody" style="text-align: center; font-family: 'Times New Roman', Times, serif; ">
-
+			<div class="cardbody">
+				<h3 class="card-title" >Log In</h3>
+				<br>
 				<form method="POST">
 					{% csrf_token %}
 					{% include 'Post/includes/form.html' %}
 					<button type="submit" class="btn btn-primary btn-block">Log in</button>
 				</form>
-			<h3><a href="{% url 'password_reset' %}">Are you forget pass?</a></h3>
+				<div class="card-footer" style="text-align: center;">
+                    New to Insta Blog? <a class="login" style="color: blue;" href="{% url 'signup' %}">Sign Up</a>
+                </div>
+			<h2><a href="{% url 'password_reset' %}">Are you forget password?</a></h2>
 			</div>
 		</div>
 	</div>

@@ -59,21 +59,24 @@
                         <p class="footer" style="text-align: right;">
                         Updated at {{ post.updated_at }}
                         </p>
+                            {% if user.is_authenticated and post.author == request.user%}
                             <div class="btn-group" style="text-align: center;" role="group">
                                 <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-danger">Edit</a>
                                 <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-info">Delete</a>
 
                             </div>
+                            {% endif %}
                         </p>
                     </div>
                     {% with comments_posts.count as total_comments %}
                         <h4>
-                            Comments: {{ total_comments }}
+
+                            Total number of comments: {{ total_comments }}
                         </h4>
                         {% endwith %}
 
                         {% for comment in comments_posts %}
-                            <div class="comment">
+                            <div class="mb-3">
                                 <p class="info">
                                     Comment created by: {{ comment.author }} at
                                     {{ comment.created_date }}
@@ -81,7 +84,7 @@
                                 <p>Comment text: {{ comment.text|linebreaks }}</p>
 
                                 {% if user.id == comment.author.id %}
-                                    <button class="btn btn-primary bg-dark"><a href="{% url 'comment_delete' pk=comment.pk %}">Delete</a></button>
+                                    <a href="{% url 'comment_delete' pk=comment.pk %}" class="btn btn-danger">Delete</a>
                                 {% endif %}
                             </div>
                                 {% empty %}
@@ -90,7 +93,7 @@
 
                             {% if user.is_authenticated %}
                     <form action="" method="POST">
-                        <div class="card col-9 offset-md-1" style="background-color: #ccc6c6;">
+                        <div class="card col-9 " style="background-color: #ccc6c6;">
                             <h5 style="text-align: center;">Add comment</h5>
                             <p class="text-form">
                                 {% csrf_token %}
