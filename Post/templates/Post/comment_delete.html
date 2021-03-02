@@ -6,12 +6,27 @@ Delete comment
 
 {% block content %}
 <br>
-<h1>Delete comment</h1>
-<form method="POST" class="">
-    {% csrf_token %}
-    <h3>Are you sure, you want to delete comment </h3>
-    <button type="submit" class="save btn-default">Yes</button>
-    <a href="{{ post.get_absolute_url }}">No</a>
-</form>
+<section class="blog_area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-5 mb-lg-0 offset-md-2">
+                <div class="card">
+                <div class="card-body">
+
+                <form method="POST" class="">
+                    {% csrf_token %}
+                    <h3>Are you sure, you want to delete comment? </h3>
+                    <div class="btn-group" style="text-align: center;" role="group">
+                    <button type="submit" class="save btn btn-danger"><h4>Yes</h4></button>
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-info"><h4>No</h4></a>
+                    </div>
+                </form>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

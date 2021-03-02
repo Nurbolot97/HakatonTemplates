@@ -9,6 +9,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0 offset-md-2">
+                <div class="card">
+                <div class="card-body">
                 <article class="blog_item">
                 <div class="blog_item_img">
                     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -75,13 +77,14 @@
                         </h4>
                         {% endwith %}
 
+
                         {% for comment in comments_posts %}
                             <div class="mb-3">
                                 <p class="info">
                                     Comment created by: {{ comment.author }} at
                                     {{ comment.created_date }}
                                 </p>
-                                <p>Comment text: {{ comment.text|linebreaks }}</p>
+                                <p>Comment text: {{ comment.text }}</p>
 
                                 {% if user.id == comment.author.id %}
                                     <a href="{% url 'comment_delete' pk=comment.pk %}" class="btn btn-danger">Delete</a>
@@ -91,20 +94,22 @@
                                     <p>There are no comments yet.</p>
                         {% endfor %}
 
+
                             {% if user.is_authenticated %}
                     <form action="" method="POST">
-                        <div class="card col-9 " style="background-color: #ccc6c6;">
+                        <div class="card col-10 " style="background-color: #ccc6c6;">
                             <h5 style="text-align: center;">Add comment</h5>
                             <p class="text-form">
                                 {% csrf_token %}
                                 {{ comment_form.as_p }}
-                                <button type="submit" class="btn btn-primary">ADD</button>
+                                <button type="submit" class="btn-primary">ADD</button>
                             </p>
                         </div>
                     </form>
                             {% endif %}
                 </div>
-
+                </div>
+                </div>
             </div>
         </div>
     </div>
